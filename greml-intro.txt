@@ -1,0 +1,114 @@
+GREML - GREek in htML
+
+Greml is a simple program which accepts in input a text file and produces in output another text file (more files may be processed by launching the program by a shell command line) which is processed as follows: each character read in input is printer on the output but for the first dollar sign ($) even scanned.
+
+Whenever a '$' is scanned, the processor activates a "Greek mode" in which characters are dealt with as follows:
+
+   * letters (either uppercase or lowercase) are dumped as HTML entities representing the corresponding Greek letter, according to the table 1 below.
+   * some symbols (namely '<', '>', '\', '/', '^', '=' and '|') may be prefixed to some letters to decorate them with diacritics symbols, according to the table 2 below.
+   * some symbols are substituted for other ones, according to the table 3 below.
+
+When the next '$' is scanned inside a "Greek region" it means the region is terminated and the scan-and-copy process continues as before the first '$' has been parsed.
+
+For example, to encode the incipit of Aristotle's Metaphysics one types as follows:
+
+$p/antes >/anqrwpoi to^u e>id/enai >or/egontai f/usei. shme^ion d' <h t^wn
+a>isq/hsewn >ag/aphsis: & g\ar cwr\is t^hs cre/ias >agap^wntgai di' a<utas, &
+m/alista t^wn >/allwn <h t^wn >omm/atwn. o>u g\ar m/onon </ina pr/attwmen
+>all>\a & mhq\en m/ellontes pr/attein t\o <or^an a<iro/umeqa >anti p/antwn
+<ws e>ipe^in t^wn >/allwn. a>/ition d' </oti m/alista poie^i gnwr/izein <hm^as a>/uth t^wn
+a>isq/hsewn & poll\as dhlo^i diafor/as.$
+
+Look in the file aristo.html (which is produced from aristo.txt) for the result.
+
+The '$' escape character may be modified to any other one via the command line switch "-e C" being C the new escape character.
+
+The input file may well end inside a Greek region with no arms. The output file name is always named as the input one but the extension, if any, is substituted for ".html".
+
+NOTE: this notation is somewhat similar to the Beta encoding for scholarly texts, with the following differences:
+
+   * Beta is by far more complete and adapted to philological purposes.
+   * Greml is very simple, used a prefix notation for diacritics and is explicitly designed to be embedded in HTML texts.
+
+A typical usage for Greml would be to encode a chunk of Greek text, translate it (just put it into a file and drop it on the Greml icon or launch Greml via command line) and paste the result, as rendered by any browser, into a Word or whatever editor one likes.
+
+Actually this is why I wrote the program, which is made freely available to the (few or none) people who needs to quote Greek texts inside other texts, or who usually wrote documents in HTML :-)
+
+Enjoy,
+Paolo
+
+PS: for remarks, bugs, et alia, check out http://www.caressa.it
+
+TABLES
+
+TABLE 1: which Greek letter is produced by which latin letter
+
+alpha   -> a
+beta    -> b
+gamma   -> g
+delta   -> d
+epsilon -> e
+zeta    -> z
+eta     -> h
+theta   -> q
+iota    -> i
+kappa   -> k
+lambda  -> l
+mu      -> m
+nu      -> n
+xi      -> x
+omicron -> o
+pi      -> p
+rho     -> r
+sigma   -> s
+tau     -> t
+upsilon -> u
+phi     -> f
+chi     -> c
+psi     -> y
+omega   -> w
+digamma -> v
+
+The same applies to uppercase letters. Notice that the final sigma is automatically converted to the alternative script by the program, although it is accessible directly as j.
+
+TABLE 2: prefix used to put diacritics above/below some letters
+
+< rough breathing
+> smooth breathing
+\ grave accent
+/ acute accent
+^ circumflex accent
+= diaeresis
+| iota subscript
+
+Invalid diacritics combinations (as <>) or diacritics applied to the wrong or not supported letters give rise to an error.
+
+TABLE 3: character(s) used as shortcuts for some strings
+
+{{  -> acute opening parenthesis
+}}  -> acute closing parenthesis
+[[  -> double opening bracket
+]]  -> double closing bracket
+"   -> opening or closing quotes according to context
+--  -> en dash
+&   -> same as ka\i
+:   -> mid dot
+`   -> opening apostrophe
+'   -> closing apostrophe
+
+DISCLAIMER
+
+Copyright 2015 by Paolo Caressa <http://www.caressa.it>.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
