@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="it">
+<head><title>Greml: una semplice codifica per il greco antico</title></head>
+<style>
+* {
+    margin, padding:0;
+}
+body {
+    font-family: Georgia, Times, serif;
+    font-size: 110%;
+    margin-left: 4em;
+    margin-right: 4em;
+}
+h1 {
+    margin-top: 3em;
+}
+h2 {
+    margin-top: 2.5em;
+}
+h3 { margin-top: 2em; }
+h4 {
+    margin-top: 1em;
+}
+p {
+    text-indent: 1em;
+    text-align: justify;
+}
+.noindent { text-indent: 0pt; }
+blockquote {
+    text-align: justify;
+}
+li {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+tt {
+    font-family: "Courier New", Courier, monospace;
+	font-size: 90%;
+}
+table {
+    border:0;
+	font-size: 90%;
+}
+.tab {
+    border:1px solid;
+    border-collapse:collapse;
+    padding:1em;
+}
+table.tab {
+    /*width: 80%;*/
+    text-align:center;
+}
+table.example {
+    width: 100%;
+    text-align: left;
+    padding:1em;
+}
+th.example, td.example {
+	width: 50%;
+	vertical-align: top;
+}
+th.tab, td.tab, tr.tab {
+    border:1px solid;
+    border-collapse:collapse;
+    text-align:center;
+    padding:0.2em;
+}
+</style>
+<body>
+<h1>Greml: una semplice codifica per il greco antico</h1>
+<h3>Paolo Caressa &lt;<a href="http://www.caressa.it">www.caressa.it</a>&gt;</h3>
+<h4>v.1.0, 2015</h4>
+<blockquote>In questo documento si descrive il programma Greml (da Greek e HTML) e si spiega come usarlo per produrre semplici testi in greco attico da usare direttamente o da copia-incollare su altri file. Il programma è adatto particolarmente a chi è veloce a scrivere con la tastiera, consentendo di codificare un testo greco in caratteri ASCII e quindi di poterlo scrivere su qualsiasi editor di testi; il programma processerà poi il testo per produrre una versione HTML (quindi visualizzabile con qualsiasi browser) contenente il testo greco nella sua forma finale.</blockquote>
+<blockquote>
+    <h3>Sommario</h3>
+        <a href="#cap1">1 Sui sistemi di scrittura digitale del greco antico</a></br>
+        <a href="#cap2">2 Come usare Greml</a></br>
+        <a href="#cap3">3 Come codificare un testo in greco con Greml</a></br>
+        <a href="#cap6">4 Future estensioni e modifiche</a></br>
+        <a href="#cap5">5 Messaggi di errore</a></br>
+</blockquote>
+
+<h2 id="cap1" style="margin-left:1em;text-indent:-1em">1. Sui sistemi di scrittura digitale del greco antico</h2>
+
+<p>Da diversi anni i sistemi di memorizzazione digitale consentono di esprimere numerosi altri caratteri, oltre a quelli latini che un tempo figuravano sulle macchine da scrivere e che sostanzialmente sono quelli delle tastiere dei computer diffusi in occidente.</p>
+
+<p>Il sistema di codifica <a href="http://unicode.org/">Unicode</a> consente di rappresentare testi in moltissime lingue del pianeta, comprese le lingue morte: infatti oltre alle esigenze di comunicazione di persone che usano lingue con sistemi ortografici non occidentali (si pensi al cinese, la lingua più parlata al mondo), molti hanno necessità di esprimere testi antichi nelle lingue originarie, preservandone per quanto possibile l'ortografia.</p>
+
+<p>Il greco antico è forse il principale esempio, essendo una delle lingue fondamentali della cultura occidentale, e fra le più studiate non soltanto dagli specialisti.</p>
+
+<p>Ovviamente <a href="http://unicode.org/">Unicode</a> supporta l'alfabeto greco, nelle sue varianti, e offre anche supporto per la rappresentazione di segni diacritici, etc. Per esempio, usando un comune programma di scrittura al computer (molti avranno a che fare con Microsoft Word<sup>&reg;</sup>) è possibile selezionare caratteri di qualsiasi tipo e inserirli nel testo che si sta scrivendo.</p>
+
+<p>Ma si tratta ovviamente di una operazione lunga e noiosa da fare col mouse: meglio sarebbe poter inserire speditamente da tastiera questi caratteri. Una soluzione, per il greco, è di impostare la tastiera sul <i>layout</i> per il greco, ma resta comunque il problema di inserire accenti e spiriti: per esempio sulla pagina della Prof. <a href="http://users2.unimi.it/castelli/?page_id=47">Carla Castelli</a> si forniscono informazioni in proposito. Esistono layout di tastiera che consentono di farlo, un esempio si trova sulla pagina del Prof. <a href="http://www.liceomeda.it/public/greco/Istruzioni-Tastiera-Greco-Antico.htm">Aurelio Brenna</a>.</p>
+
+<p>Un altro approccio al problema di rappresentare e rendere un testo greco è di usare sistemi nei quali la rappresentazione non coincide con la resa; questo vuol dire che mentre un documento Word<sup>&reg;</sup>, per esempio, visualizza immediatamente il testo nella sua versione definitiva (sistemi <a href="https://it.wikipedia.org/wiki/WYSIWYG">WYSWYG</a>), altri sistemi (<a href="https://it.wikipedia.org/wiki/WYSIWYM">WYSWYM</a>) consentono di descrivere il testo e il suo contenuto che poi sarà visualizzato in un momento successivo.</p>
+
+<p>Un esempio è l'<a href="http://www.w3.org/html/">HTML</a>: quest'ultimo, come chiunque navighi su Internet dovrebbe sapere, è un formato testuale nel quale oltre al testo che si vuole rappresentare consente di inserire delle informazioni su come rappresentarlo. Va detto che andrebbe distinto fra rappresentazione interna dell'informazione e rappresentazione grafica di essa: HTML, a differenza del suo più nobile parente XML, serve a presentare informazioni su una pagina Web, laddove XML serve a memorizzare informazioni.</p>
+
+<p>In ogni caso, è possibile scrivere un testo tanto in Word<sup>&reg;</sup> quanto in HTML, ma mentre nel primo caso il programma di scrittura e il programma di visualizzazione coincidono, un testo HTML è un semplice file di testo, per esempio quale si può scrivere con un qualsiasi programma di text editing, che poi viene reso da un browser, come Firefox, Internet Explorer, etc.</p>
+
+<p>In generale, per esigenze scientifiche, esiste un sistema &ldquo;definitivo&rdquo; di redazione documentale, che consente non solo di produrre documenti professionali ma anche di inserirvi testi in lingue qualsiasi, il mai troppo lodato <a href="https://www.tug.org/">TeX</a> e la sua altrettanto benemerita variante <a href="http://www.latex-project.org/">LaTeX</a>, opera di due giganti della computer science (<a href="http://www-cs-faculty.stanford.edu/~uno/">Donald E. Knuth</a> e <a href="http://www.lamport.org/">Leslie Lamport</a>) con i quali si può produrre qualsiasi tipo di testo con una qualità inarrivabile.</p>
+
+<p>Per quanto riguarda invece la codifica e la memorizzazione di documenti di testo che rappresentino testi greci qualsiasi (compresi papiri, etc.) c'è una codifica che costituisce uno standard <i>de facto</i>, chiamata <a href="http://stephanus.tlg.uci.edu/encoding/BCM2015.pdf">Beta</a> utilizzata in particolare nelle insostituibili risorse on line indirizzate agli studiosi, come il <a href="http://stephanus.tlg.uci.edu/">Thesaurus Linguae Graecae<sup>&reg;</sup></a> o il progetto <a href="http://www.perseus.tufts.edu/hopper/">Perseus</a>.</p>
+
+<p>Ma se si hanno esigenze meno impegnative, per esempio inserire brani in una tesi di laurea o svolgere tesine per il liceo classico, si può usare il programma Greml che metto a disposizione su questa mia pagina. La mia codifica non è compatibile con Beta (sebbene non sia difficile tradurla in quest'ultima), ma vi è ispirata: il fatto è che Greml è concepito per essere inglobato dentro l'HTML, laddove Beta definisce un proprio linguaggio di markup, e ha delle particolarità, come l'asterisco per le maiuscole, che lo rendono più difficile da usare per la stenografia.</p>
+
+<p>In generale l'idea di scrivere documenti in HTML e non in programmi di scrittura ha i seguenti vantaggi:</p>
+
+<ul>
+    <li>Sia HTML che moltissimi editor per scrivere testi HTML che moltissimi browser per visualizzarli sono completamente gratuiti.</li>
+    <li>HTML è uno standard consolidato che non pone problemi di compatibilità e conservazione.</li>
+    <li>I file HTML sono assolutamente indipendenti dal sistema operativo e dal computer utilizzato: HTML è una lingua universale.</li>
+    <li>Dovendo scrivere le istruzioni di formattazione e resa grafica anziché impartirle con mouse, menu etc. è molto più facile replicare sequenze di istruzioni per fare una certa cosa, basta il copia-incolla (vatti invece a ricordare come si fa con Word<sup>&reg;</sup> per fare la tal cosa che si basa sulla memoria e la manualità?)</li>
+</ul>
+
+<p>Personalmente, ma come molti credo, ho più facilità a usare la tastiera che il mouse, e quindi è più comodo per me scrivere la descrizione di qualche cosa con la tastiera, piuttosto che farla col mouse o altri dispositivi di input.</p>
+
+<h2 id="cap2" style="margin-left:1em;text-indent:-1em">2. Come usare Greml</h2>
+
+<p>Ci sono due modi di usare il programma: il primo è per tradurre brani in html, visualizzarli col browser e quindi copia-incollarli sul testo dove si vuole che appaiano, per esempio è possibile incollare un testo selezionato da browser su Microsoft Word<sup>&reg;</sup>. Il secondo è di scrivere il proprio testo in HTML e utilizzare la sintassi di Greml e il programma stesso in modo da produrre la versione definitiva.</p>
+
+<p>In ogni caso bisogna prima scaricare il programma: per i sistemi Windows<sup>&reg;</sup> si può scaricare direttamente il file eseguibile, <a href="http://www.caressa.it/src/greml/greml32.exe">versione 32 bit</a> o <a href="http://www.caressa.it/src/greml/greml64.exe">versione 64 bit</a>; potete cambiare il nome al file (ma senza elidere l'estensione <tt>.exe</tt>).</p>
+
+<p>Negli altri casi (in pratica su Linux e sistemi Apple<sup>&reg;</sup>) è possibile scaricare il file sorgente del programma in C (un file unico!) <a href="http://www.caressa.it/greml/greml.c">greml.c</a>, che è poi necessario compilare (lo si può fare anche nel caso dei sistemi Microsoft) per esempio con un comando come <tt>cc -pedantic greml.c -o greml</tt> (dall'interno di una shell di comando). Il programma eseguibile prodotto dalla compilazione, o scaricato da questo sito, va poi collocato in una cartella dove sia raggiungibile, o sempicemente messo nella cartella dove si metteranno i file da elaborare.</p>
+
+<p>Una volta ottenuto o compilato il programma, per elaborare un file contenente il testo in greco, secondo la codifica specificata più sotto, se ne trascina l'icona sull'icona del programma, e a quel punto si dovrebbe aprire una finestra in cui compaiono i messaggi del programma: se l'elaborazione non ha problemi dovrebbe apparire la scritta <tt>Press &lt;ENTER&gt; to terminate...</tt> al che si premerà il tasto INVIO, l'esecuzione termina e nella cartella dove c'è il file orignale dovrebbe comparire il risultante file con estensione html.</p>
+
+<p>Questo file si apre con un qualsiasi browser e il suo contenuto visualizzato dal browser si può copiare e incollare su altre finestre.</p>
+
+<p>Si può anche lanciare il programma da una riga di comando, e in questo caso bisogna specificare il nome del file da elaborare, possono essercene diversi messi sulla stessa riga e separati da spazi, per esempio:</p>
+
+<pre>
+C:\>greml32.exe Platone "Sesto Empirico" Plotino
+</pre>
+
+<p>Lanciando il programma dalla riga di comando è anche possibile cambiare il carattere di <em>escape</em> che viene usato per delimitare le porzioni di testo all'interno delle quali è contenuta la codifica delle parti in greco e che, per <em>default</em> è il dollaro: <tt>$</tt>.
+
+<p>Per esempio lanciando il programma con</p>
+
+<pre>
+C:\>greml32.exe -e ! foo.txt
+</pre>
+
+<p class="noindent">nel file <tt>foo.txt</tt> si assumerà che le porzioni di testo che contengono la codifica del greco siano delimitate da punti esclamativi invece che da dollari.</p>
+
+<p>Attenzione alle estensioni dei file: spesso il sistema operativo le nasconde e probabilmente se scriverete il file con il blocco note o simili questo accluderà l'estensione <tt>.txt</tt> ma in ogni caso il programma funziona lo stesso, in quanto l'estensione <tt>.html</tt> del file di output viene aggiunta a un file il cui nome non abbia estensione, o va a sostituire l'estensione del file di input.</p>
+
+<p>NOTA: è importante che l'editor che usate per comporre il file origine, da processare con Greml per produrre l'HTML finale, non inserisca altri caratteri se non quelli che potete visualizzare: per esempio il blocco note va bene ma Microsoft Word<sup>&reg;</sup> no.</p>
+
+<h2 id="cap3" style="margin-left:1em;text-indent:-1em">3. Come codificare un testo in greco con Greml</h2>
+
+<p>Il testo che dovete scrivere per farlo elaborare da Greml viene copiato carattere per carattere dal file di input al file di output, fino a che il carattere di <em>escape</em> <tt>$</tt> non viene incontrato: infatti il carattere "dollaro" viene interpretato come l'inizio del testo greco (e in questo caso il segno del dollaro non viene copiato sul file di output) o, se seguito immediatamente da un altro dollaro, come un singolo segno del dollaro.</p>
+
+<p>Per uscire dalla modalità greco e tornare alla copiatura <tt>verbatim</tt> si termina la sezione di testo greco con un altro <tt>&dollar;</tt>: poiché il carattere <tt>$</tt> non ha grandi probabilità di essere usato all'interno di un testo in greco antico, e dato che non ha significato speciale in HTML, è stato scelto come carattere di <em>escape</em>, tuttavia è possibile cambiarlo lanciando Greml da riga di comando con l'opzione <tt>-e </tt><i>c</i>, dove <i>c</i> è il carattere che si vuole adoperare come delimitatore del testo greco.</p>
+
+<p>Nella regione di testo delimitata fra due dollari, il testo di input non viene copiato così com'è ma traslitterato in accordo con le seguenti regole:</p>
+
+<ol>
+    <li>Le lettere dell'alfabeto latino (sia minuscole che maiuscole) sono tradotte nelle corrispondenti lettere greche, secondo la corrispondenza data dalla <a href="#tab1">tabella 1</a> (una <tt>s</tt> viene automaticamente convertita in &sigma; ovvero in &sigmaf; finale a seconda del contesto in cui appare).</li>
+    <li>Se a una lettera si devono applicare dei segni diacritici questi devono precedere (in qualsiasi ordine) immediatamente la lettera cui si applicano, e vanno codificati secondo quanto specificato nella <a href="#tab2">tabella 2</a>.</li>
+    <li>Alcuni caratteri speciali danno luogo a delle azioni e non sono riportati nel file di output:
+    <ul>
+        <li>Il carattere di <em>escape</em> (a priori <tt>&dollar;</tt>) non viene inviato in output ma demarca la fine del testo in greco e fa tornare l'elaborazione del file a una semplice copiatura dell'input sull'output.</li>
+        <li>Il carattere <tt>&#34;</tt> produce una coppia di virgolette aperta &ldquo; o chiusa &rdquo; in modo automatico (se le virgolette sono bilanciate).</li>
+        <li>Il carattere <tt>'</tt> fa inserire nel file di output uno apostrofo destro &#x1fbf; (in pratica lo stesso segno di uno spirito dolce).</li>
+        <li>Il carattere <tt>&#96;</tt> fa inserire nel file di output uno apostrofo sinistro &#x1ffe; (in pratica lo stesso segno di uno spirito aspro).</li>
+        <li>Il carattere <tt>:</tt> fa inserire nel file di output un punto in alto &#x00b7;.</li>
+        <li>Il carattere <tt>&amp;</tt> fa inserire nel file la congiunzione &kappa;&alpha;&#x1f76;.</li>
+        <li>Il carattere <tt>-</tt> fa inserire nel file un trattino semplice -.</li>
+        <li>La sequenza di caratteri <tt>--</tt> fa inserire nel file un trattino più lungo &ndash;.</li>
+        <li>Il carattere <tt>[</tt> se non è seguito da un altro carattere <tt>[</tt> inserisce una singola parentesi quadra, altrimenti inserisce un carattere &#x301a;.</li>
+        <li>Il carattere <tt>]</tt> se non è seguito da un altro carattere <tt>]</tt> inserisce una singola parentesi quadra, altrimenti inserisce un carattere &#x301b;.</li>
+        <li>Il carattere <tt>{</tt> se non è seguito da un altro carattere <tt>{</tt> inserisce una singola parentesi graffa, altrimenti la parentesi acuta <tt>&#x2329;</tt>.</li>
+        <li>Il carattere <tt>}</tt> se non è seguito da un altro carattere <tt>}</tt> inserisce una singola parentesi tonda, altrimenti inserisce la graffa <tt>&#x232a;</tt>.</li>
+    </ul>
+    </li>
+</ol>
+
+<p>Per esempio ecco come il seguente testo (l'incipit del Vangelo di Giovanni) viene scritto con Greml e reso nel browser (a sinistra il testo da inserire nel file da processare, a destra l'HTML prodotto da Greml e visualizzato dal vostro browser in questo momento):</p>
+
+<table class="example">
+<tr><th class="example">Codifica Greml</th><th>Risultato finale</th>
+<tr><td><tt>&dollar;[1] >En >arc^|h >^hn &lt;o l/ogos,</tt></td>
+<td class="example">[1] &#x1f18;&nu; &#x1f00;&rho;&chi;&#x1fc7; &#x1f26;&nu; &#x1f41; &lambda;&#x1f79;&gamma;&omicron;&sigmaf;,</td></tr>
+<tr><td class="example"><tt>&amp; &lt;o l/ogos ^hn pr\os t\on qe/on</tt></td>
+<td class="example">&kappa;&alpha;&#x1f76; &#x1f41; &lambda;&#x1f79;&gamma;&omicron;&sigmaf; &#x1f26;&nu; &pi;&rho;&#x1f78;&sigmaf; &tau;&#x1f78;&nu; &theta;&epsilon;&#x1f79;&nu;</td></tr>
+<tr><td class="example"><tt>&amp; qe\os >^hn &lt;o l/ogos</tt></td>
+<td class="example">&kappa;&alpha;&#x1f76; &theta;&epsilon;&#x1f78;&sigmaf; &#x1f26;&nu; &#x1f41; &lambda;&#x1f79;&gamma;&omicron;&sigmaf;</td></tr>
+<tr><td class="example"><tt>[2] o^&lt;utos ^>hn >en >arc^|h pr\os t\on qe/on</tt></td>
+<td class="example">[2] &omicron;&#x1f57;&tau;&omicron;&sigmaf; &#x1f26;&nu; &#x1f10;&nu; &#x1f00;&rho;&chi;&#x1fc7; &pi;&rho;&#x1f78;&sigmaf; &tau;&#x1f78;&nu; &theta;&epsilon;&#x1f79;&nu;</td></tr>
+<tr><td class="example"><tt>p/anta di' a>uto^u >eg/eneto,</tt></td>
+<td class="example">&pi;&#x1f71;&nu;&tau;&alpha; &delta;&iota;&#x1fbf; &alpha;&#x1f50;&tau;&omicron;&#x1fe6; &#x1f10;&gamma;&#x1f73;&nu;&epsilon;&tau;&omicron;,</td></tr>
+<tr><td class="example"><tt>&amp; cwr\is a>uto^u >eg/eneto o>ud\e &lt;/en. &lt;\o g/egonen</tt></td>
+<td class="example">&kappa;&alpha;&#x1f76; &chi;&omega;&rho;&#x1f76;&sigmaf; &alpha;&#x1f50;&tau;&omicron;&#x1fe6; &#x1f10;&gamma;&#x1f73;&nu;&epsilon;&tau;&omicron; &omicron;&#x1f50;&delta;&#x1f72; &#x1f15;&nu;. &#x1f43; &gamma;&#x1f73;&gamma;&omicron;&nu;&epsilon;&nu;</td></tr>
+<tr><td class="example"><tt>[4] >en a>ut^|w zw\h >^hn, &amp; &lt;h zw\h >^hn t\o f^ws</tt></td>
+<td class="example">[4] &#x1f10;&nu; &alpha;&#x1f50;&tau;&#x1ff7; &zeta;&omega;&#x1f74; &#x1f26;&nu;, &kappa;&alpha;&#x1f76; &#x1f21; &zeta;&omega;&#x1f74; &#x1f26;&nu; &tau;&#x1f78; &phi;&#x1ff6;&sigmaf;</td></tr>
+<tr><td class="example"><tt>t^wn >anqr/wpwn:</tt></td>
+<td class="example">&tau;&#x1ff6;&nu; &#x1f00;&nu;&theta;&rho;&#x1f7D;&pi;&omega;&nu;&#x00b7;</td></tr>
+<tr><td class="example"><tt>[5] &amp; t\o f^ws >en t^|h skot/i|a fa/inei,</tt></td>
+<td class="example">[5] &kappa;&alpha;&#x1f76; &tau;&#x1f78; &phi;&#x1ff6;&sigmaf; &#x1f10;&nu; &tau;&#x1fc7; &sigma;&kappa;&omicron;&tau;&#x1f77;&#x1fb3; &phi;&alpha;&#x1f77;&nu;&epsilon;&iota;,</td></tr>
+<tr><td class="example"><tt>&amp; &lt;h skot/ia a>ut\o o>u kat/elaben.&dollar;</tt></td>
+<td class="example">&kappa;&alpha;&#x1f76; &#x1f21; &sigma;&kappa;&omicron;&tau;&#x1f77;&alpha; &alpha;&#x1f50;&tau;&#x1f78; &omicron;&#x1f50; &kappa;&alpha;&tau;&#x1f73;&lambda;&alpha;&beta;&epsilon;&nu;.</td></tr>
+</table>
+
+<p>Ecco invece un testo HTML nel quale le parole greche sono intercalate a quelle italiane (un brano della <cite>Grammatica greca</cite> del Klodic (1870), nel pubblico dominio sul <a href="https://archive.org/details/4628547">sito di archive.org</a>):</p>
+
+<table class="example">
+<tr><th class="example">Codifica Greml</th><th>Risultato finale</th>
+<tr><td class="example">
+<tt>&lt;p>Spirito (&dollar;pne^uma&dollar;) significa aspirazione. I greci ne hanno due: lo spirito &lt;b>lene&lt;/b> (&dollar;'&dollar;) (&dollar;yil/on&dollar;) e l'&lt;b>aspro</b> (&dollar;`&dollar;). Lo spirito lene non si fa udire nella pronunzia ; l'aspro corrisponde all' h aspirato dei Francesi. L'uno e l'altro segnasi unicamente sulle vocali in principio di parola, p. e. &dollar;>won, &lt;ex&dollar;, e nei dittonghi viene collocato sulla seconda vocale, eccetto che nei dittonghi impropri, dei quali si debba scriver majuscola la prima vocale: p. e. &dollar;&lt;Aidhs&dollar;. &dollar;r&dollar; in principio di parola riceve lo spirito aspro: p. e. &dollar;>renma&dollar;, &dollar;r&dollar; doppio si scrive così: &dollar;>r&lt;r&dollar;.&lt;/p></tt>
+</td>
+<td class="example">
+Spirito (&pi;&nu;&epsilon;&#x1fe6;&mu;&alpha;) significa aspirazione. I greci ne hanno due: lo spirito <b>lene</b> (&#x1fbf;) (&psi;&iota;&lambda;&#x1f79;&nu;) e l'<b>aspro</b> (&#x1ffe;). Lo spirito lene non si fa udire nella pronunzia ; l'aspro corrisponde all' h aspirato dei Francesi. L'uno e l'altro segnasi unicamente sulle vocali in principio di parola, p. e. &#x1f60;&omicron;&nu;, &#x1f11;&xi;, e nei dittonghi viene collocato sulla seconda vocale, eccetto che nei dittonghi impropri, dei quali si debba scriver majuscola la prima vocale: p. e. &#x1f09;&iota;&delta;&eta;&sigmaf;. &rho; in principio di parola riceve lo spirito aspro: p. e. &#x1fe4;&epsilon;&nu;&mu;&alpha;, &rho; doppio si scrive così: &#x1fe4;&#x1fe5;.</td>
+</tr>
+</table>
+
+<p>Il programma farà qualche controllo relativo ai segni diacritici, segnalando un errore, e bloccando l'elaborazione, se trova una combinazione non consentita o incoerente: per esempio due spiriti sulla stessa lettera, o anche segni diacritici non applicati a vocali o alla &rho;.</p>
+
+<p>In generale ogni errore segnalerà la posizione nel testo (numero di riga e numero di colonna) in cui si manifesta rendendo semplice la correzione.</p>
+
+<p>La lista degli errori possibili è elencata al <a href="#cap6">&sect;5</a>.</p>
+
+<p><table class="tab" id="tab1">
+<tr class="tab"><th class="tab">Lettera<br>greca</th class="tab"><th class="tab">Carattere<br>da inserire</th> <th class="tab">Lettera<br>greca</th><th class="tab">Carattere<br>da inserire</th></tr>
+<tr class="tab"><td class="tab">&alpha;</td> <td class="tab"><tt>a</tt></td> <td class="tab">&Alpha;</td><td class="tab"><tt>A</tt></td> </tr>
+<tr class="tab"><td class="tab">&beta;</td> <td class="tab"><tt>b</tt></td> <td class="tab">&Beta;</td> <td class="tab"><tt>B</tt></td></tr>
+<tr class="tab"><td class="tab">&gamma;</td> <td class="tab"><tt>g</tt></td> <td class="tab">&Gamma;</td> <td class="tab"><tt>G</tt></td></tr>
+<tr class="tab"><td class="tab">&delta;</td> <td class="tab"><tt>d</tt></td> <td class="tab">&Delta;</td> <td class="tab"><tt>D</tt></td></tr>
+<tr class="tab"><td class="tab">&epsilon;</td> <td class="tab"><tt>e</tt></td> <td class="tab">&Epsilon;</td><td class="tab"><tt>E</tt></td> </tr>
+<tr class="tab"><td class="tab">&zeta;</td> <td class="tab"><tt>z</tt></td> <td class="tab">&Zeta;</td> <td class="tab"><tt>Z</tt></td></tr>
+<tr class="tab"><td class="tab">&eta;</td> <td class="tab"><tt>h</tt></td> <td class="tab">&Eta;</td> <td class="tab"><tt>H</tt></td></tr>
+<tr class="tab"><td class="tab">&theta;</td> <td class="tab"><tt>q</tt></td> <td class="tab">&Theta;</td> <td class="tab"><tt>Q</tt></td></tr>
+<tr class="tab"><td class="tab">&iota;</td> <td class="tab"><tt>i</tt></td> <td class="tab">&Iota;</td> <td class="tab"><tt>I</tt></td></tr>
+<tr class="tab"><td class="tab">&kappa;</td> <td class="tab"><tt>k</tt></td></td> <td class="tab">&Kappa;</td> <td class="tab"><tt>K</tt></tr>
+<tr class="tab"><td class="tab">&lambda;</td> <td class="tab"><tt>l</tt></td> <td class="tab">&Lambda;</td> <td class="tab"><tt>L</tt></td></tr>
+<tr class="tab"><td class="tab">&mu;</td> <td class="tab"><tt>m</tt></td> <td class="tab">&Mu;</td> <td class="tab"><tt>M</tt></td></tr>
+<tr class="tab"><td class="tab">&nu;</td> <td class="tab"><tt>n</tt></td> <td class="tab">&Nu;</td> <td class="tab"><tt>N</tt></td></tr>
+<tr class="tab"><td class="tab">&xi;</td> <td class="tab"><tt>x</tt></td> <td class="tab">&Xi;</td> <td class="tab"><tt>X</tt></td></tr>
+<tr class="tab"><td class="tab">&omicron;</td> <td class="tab"><tt>o</tt></td> <td class="tab">&Omicron;</td> <td class="tab"><tt>O</tt></td></tr>
+<tr class="tab"><td class="tab">&pi;</td> <td class="tab"><tt>p</tt></td> <td class="tab">&Pi;</td> <td class="tab"><tt>P</tt></td></tr>
+<tr class="tab"><td class="tab">&rho;</td> <td class="tab"><tt>r</tt></td> <td class="tab">&Rho;</td> <td class="tab"><tt>R</tt></td></tr>
+<tr class="tab"><td class="tab">&sigma;/&sigmaf;</td> <td class="tab"><tt>s</tt></td> <td class="tab">&Sigma;</td> <td class="tab"><tt>S</tt></td></tr>
+<tr class="tab"><td class="tab">&sigmaf;</td> <td class="tab"><tt>j</tt></td> <td class="tab"></td> <td class="tab"><tt></tt></td></tr>
+<tr class="tab"><td class="tab">&tau;</td> <td class="tab"><tt>t</tt></td> <td class="tab">&Tau;</td> <td class="tab"><tt>T</tt></td></tr>
+<tr class="tab"><td class="tab">&upsilon;</td> <td class="tab"><tt>u</tt></td> <td class="tab">&Upsilon;</td> <td class="tab"><tt>U</tt></td></tr>
+<tr class="tab"><td class="tab">&phi;</td> <td class="tab"><tt>f</tt></td> <td class="tab">&Phi;</td> <td class="tab"><tt>F</tt></td></tr>
+<tr class="tab"><td class="tab">&chi;</td> <td class="tab"><tt>c</tt></td> <td class="tab">&Chi;</td> <td class="tab"><tt>C</tt></td></tr>
+<tr class="tab"> <td class="tab">&psi;</td> <td class="tab"><tt>y</tt></td> <td class="tab">&Psi;</td><td class="tab"><tt>Y</tt></td></tr> <tr class="tab"><td class="tab">&omega;</td> <td class="tab"><tt>w</tt></td> <td class="tab">&Omega;</td> <td class="tab"><tt>W</tt></td></tr>
+<tr class="tab"><td class="tab">&#x3dd;</td> <td class="tab"><tt>v</tt></td> <td class="tab">&#x3dc;</td> <td class="tab"><tt>V</tt></td></tr>
+<caption>Tabella 1. Lettere greche e come ottenerle con Greml.</caption>
+</table>
+</p>
+
+<p><table id="tab2" class="tab">
+<tr class="tab">
+<th class="tab">Diacritico</th><th class="tab">Prefisso</th> <tr>
+<tr class="tab">
+<td class="tab">&#x1ffe; &nbsp;(spirito aspro)</td>
+<td class="tab"><tt>&lt;</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x1fbf; &nbsp;(spirito dolce)</td>
+<td class="tab"><tt>&gt;</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x1ffd; &nbsp;(accento acuto)</td>
+<td class="tab"><tt>/</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x1fef; &nbsp;(accento grave)</td>
+<td class="tab"><tt>\</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x1fc0; &nbsp;(accento circonflesso)</td>
+<td class="tab"><tt>^</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x308; &nbsp;(dieresi)</td>
+<td class="tab"><tt>=</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x345; &nbsp;(iota muto)</td>
+<td class="tab"><tt>|</tt></td>
+</tr>
+<caption>Tabella 2. Segni diacritici e come ottenerli con Greml.</caption>
+</table>
+</p>
+
+<p><table id="tab3" class="tab">
+<tr class="tab">
+<th class="tab">Il simbolo... </th><th class="tab">... si ottiene con</th> <tr>
+<tr class="tab">
+<td class="tab">&#x2329;</td>
+<td class="tab"><tt>{{</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x232a;</td>
+<td class="tab"><tt>}}</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x301a;</td>
+<td class="tab"><tt>[[</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&#x301b;</td>
+<td class="tab"><tt>]]</tt></td> <tr>
+<tr class="tab">
+<td class="tab">&ldquo; e &rdquo;</td>
+<td class="tab">entrambi con <tt>"</tt></td>
+</tr>
+<tr class="tab">
+<td class="tab">&#x1fbf;</td>
+<td class="tab"><tt>'</tt></td>
+</tr>
+<tr class="tab">
+<td class="tab">&#x1ffe;</td>
+<td class="tab"><tt>`</tt></td>
+</tr>
+<tr class="tab">
+<td class="tab">&#x00b7;</td>
+<td class="tab"><tt>:</tt></td>
+</tr>
+<tr class="tab">
+<td class="tab">&kappa;&alpha;&#x1f76;</td>
+<td class="tab"><tt>&amp;</tt></td>
+</tr>
+<tr class="tab">
+<td class="tab">&ndash;</td>
+<td class="tab"><tt>--</tt></td>
+</tr>
+<caption>Tabella 3. Ulteriori traslitterazioni nella modalità greco.</caption>
+</table>
+</p>
+
+<h2 id="cap6" style="margin-left:1em;text-indent:-1em">4. Future estensioni e modifiche</h2>
+
+<p>Questa prima versione del programma, per quanto sia stata verificata e sia attualmente utilizzata dal suo autore, è chiaramente prona a miglioramenti di vario tipo: per esempio aggiungere anche le lettere arcaiche o quelle in uso nel Medioevo, consentire l'inserimento di numeri decimali automaticamente tradotti nella notazione attica, aggiungere segni filologici, etc.</p>
+
+<p>Se avrò tempo e voglia potrò fornire queste estensioni, o magari qualche visitatore di questa pagina che conosca il C potrà apportarle egli stesso sulla base del mio sorgente; anche suggerimenti su ulteriori migliorìe o funzionalità che renderebbero il programma più usabile sono bene accette, i riferimenti per contattarmi sono alla pagina <a href="http://www.caressa.it">www.caressa.it</a>.</p>
+
+<h2 id="cap5" style="margin-left:1em;text-indent:-1em">5. Messaggi di errore</h2>
+
+<p>Se per qualche motivo il testo che si fornisce in input Greml non è formattato correttamente, o anche se si verifica un errore di input nell'apertura di file, etc., il programma si bloccherà segnalando il nome del file, il numero di riga e il numero di colonna in corrispondenza dell'errore, seguito da un breve messaggio di errore. Segue l'elenco dei messaggi possibili.</p>
+
+<p>
+<table class="tab" width="100%">
+<tr class="tab"><th class="tab" width="40%">Messaggio</th><th class="tab">Possibile causa</th></tr>
+<tr class="tab"><td class="tab">
+<tt>Cannot mix different accents</tt>
+</td><td class="tab">
+Si stanno applicando più accenti alla stessa lettera.
+</td></tr>
+<tr class="tab"><td class="tab">
+<tt>Cannot mix different breathings</tt>
+</td><td class="tab">
+Si stanno applicando sia lo spirito dolce che quello aspro alla stessa lettera.
+</td></tr>
+<tr class="tab"><td class="tab">
+<tt>Cannot open file</tt>
+</td><td class="tab">
+Il file (del quale viene indicato il nome) non può essere aperto.
+</td></tr>
+<tr class="tab"><td class="tab">
+<tt>Invalid diacritic combination</tt>
+</td><td class="tab">
+La combinazione di segni diacritici non è valida per la lettera cui è applicata, o è comunque incoerente e non supportata.
+</td></tr>
+<tr class="tab"><td class="tab">
+<tt>More than three diacritics together</tt>
+</td><td class="tab">
+Si stanno applicando più di tre segni diacritici alla stessa lettera.
+</td></tr>
+</table>
+</p>
+<h2 id="cap6" style="margin-left:1em;text-indent:-1em">6. Disclaimer</h2>
+
+<p>The "Greml" software is provided "as is" and any expressed or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed.</p>
+
+<p>In no event shall the regents or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.</p>
+
+<p>&copy;2015 by Paolo Caressa &lt;<a href="http://www.caressa.it">www.caressa.it</a>&gt;</p>
+</body>
+</html>
