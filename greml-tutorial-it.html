@@ -1,6 +1,8 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
-<head><title>Greml: una semplice codifica per il greco antico</title></head>
+<head>
+    <title>Greml: una semplice codifica per il greco antico</title>
+    <meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
 <style>
 * {
     margin, padding:0;
@@ -8,8 +10,8 @@
 body {
     font-family: Georgia, Times, serif;
     font-size: 110%;
-    margin-left: 4em;
-    margin-right: 4em;
+    margin-left: 1em;
+    margin-right: 1em;
 }
 h1 {
     margin-top: 3em;
@@ -66,6 +68,7 @@ th.tab, td.tab, tr.tab {
     padding:0.2em;
 }
 </style>
+</head>
 <body>
 <h1>Greml: una semplice codifica per il greco antico</h1>
 <h3>Paolo Caressa &lt;<a href="http://www.caressa.it">www.caressa.it</a>&gt;</h3>
@@ -119,7 +122,7 @@ th.tab, td.tab, tr.tab {
 
 <p>Ci sono due modi di usare il programma: il primo è per tradurre brani in html, visualizzarli col browser e quindi copia-incollarli sul testo dove si vuole che appaiano, per esempio è possibile incollare un testo selezionato da browser su Microsoft Word<sup>&reg;</sup>. Il secondo è di scrivere il proprio testo in HTML e utilizzare la sintassi di Greml e il programma stesso in modo da produrre la versione definitiva.</p>
 
-<p>In ogni caso bisogna prima scaricare il programma: per i sistemi Windows<sup>&reg;</sup> si può scaricare direttamente il file eseguibile, <a href="http://www.caressa.it/src/greml/greml32.exe">versione 32 bit</a> o <a href="http://www.caressa.it/src/greml/greml64.exe">versione 64 bit</a>; potete cambiare il nome al file (ma senza elidere l'estensione <tt>.exe</tt>).</p>
+<p>In ogni caso bisogna prima scaricare il programma: per i sistemi Windows<sup>&reg;</sup> si può scaricare direttamente il file eseguibile, <a href="http://www.caressa.it/greml/greml32.exe">versione 32 bit</a> o <a href="http://www.caressa.it/greml/greml64.exe">versione 64 bit</a>; potete cambiare il nome al file (ma senza elidere l'estensione <tt>.exe</tt>).</p>
 
 <p>Negli altri casi (in pratica su Linux e sistemi Apple<sup>&reg;</sup>) è possibile scaricare il file sorgente del programma in C (un file unico!) <a href="http://www.caressa.it/greml/greml.c">greml.c</a>, che è poi necessario compilare (lo si può fare anche nel caso dei sistemi Microsoft) per esempio con un comando come <tt>cc -pedantic greml.c -o greml</tt> (dall'interno di una shell di comando). Il programma eseguibile prodotto dalla compilazione, o scaricato da questo sito, va poi collocato in una cartella dove sia raggiungibile, o sempicemente messo nella cartella dove si metteranno i file da elaborare.</p>
 
