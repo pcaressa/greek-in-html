@@ -65,6 +65,18 @@ void error_on(int cond, char *fmt, ...)
     }
 }
 
+/*  Wraps fgetc so to adjust line and column pointer. */
+int fget_char(void)
+{
+    int c = fgetc(g_in);
+    ++ g_col;
+    if ( c == '\n' ) {
+        ++ g_line;
+        g_col = 1;
+    }
+    return c;
+}
+
 /* Routines used to implement actions triggered by certain characters. */
 
 void do_acute(void) { g_acute = 1; }
@@ -78,7 +90,7 @@ void do_smooth(void) { g_smooth = 1; }
 void do_closed_brace(void)
 {
     /* It may be either a single '}' or a double '}}'. */
-    int c = fgetc(g_in);
+    int c = fget_char();
     if ( c != '}' ) {
         /* Nope: it is a single '}'. */
         fputc('}', g_out);
@@ -92,7 +104,7 @@ void do_closed_brace(void)
 void do_closed_bracket(void)
 {
     /* It may be either a single ']' or a double ']]'. */
-    int c = fgetc(g_in);
+    int c = fget_char();
     if ( c != ']' ) {
         /* Nope: it is a single ']'. */
         fputc(']', g_out);
@@ -112,7 +124,7 @@ void do_dquote(void)
 void do_hyphen(void)
 {
     /* It may be either a single '-' or a double '--'. */
-    int c = fgetc(g_in);
+    int c = fget_char();
     if ( c != '-' ) {
         /* Nope: it is a single '-'. */
         fputc('-', g_out);
@@ -126,7 +138,7 @@ void do_hyphen(void)
 void do_opened_brace(void)
 {
     /* It may be either a single '{' or a double '{{'. */
-    int c = fgetc(g_in);
+    int c = fget_char();
     if ( c != '{' ) {
         /* Nope: it is a single '{'. */
         fputc('{', g_out);
@@ -140,7 +152,7 @@ void do_opened_brace(void)
 void do_opened_bracket(void)
 {
     /* It may be either a single '[' or a double '[['. */
-    int c = fgetc(g_in);
+    int c = fget_char();
     if ( c != '[' ) {
         /* Nope: it is a single '['. */
         fputc('[', g_out);
@@ -157,7 +169,7 @@ void do_sigma(void)
         is not a letter nor a diacritic or bracket symbol (which
         may appear inside words) then the final form of the sigma
         is printed on the out file. */
-    int c = fgetc(g_in);
+    int c = fget_char();
     fprintf(g_out, !isalpha(c) && strchr("<>\\/^=|[]{}", c) == NULL
         ? "&sigmaf;" : "&sigma;");
     ungetc(c, g_in);
@@ -443,7 +455,7 @@ const char *CHR_TRANS[96] = {
     "&epsilon;", "&phi;", "&gamma;", "&eta;",
     "&iota;", "&sigmaf;", "&kappa;", "&lambda;",
     "&mu;", "&nu;", "&omicron;", "&pi;",
-    "&theta;", "&rho;", "&sigma;", "&tau;",
+    "&theta;", "&rho;", NULL, "&tau;",
     "&upsilon;", "&#x3dd;", "&omega;", "&xi;",
     "&psi;", "&zeta;", NULL, NULL,
     NULL, NULL, NULL,
@@ -465,7 +477,7 @@ void greml_transliterate(void)
     g_smooth = 0;
     
     /* Scanning loop. */
-    while ( (c = fgetc(g_in)) != EOF && c != g_escape ) {
+    while ( (c = fget_char()) != EOF && c != g_escape ) {
         int breathing = g_rough + g_smooth;
         int accent = g_acute + g_circumflex + g_grave;
         int other = g_diaeresis + g_iota;
@@ -528,18 +540,22 @@ void greml(char *inname, char *outname)
     g_out = fopen(outname, "w");
     error_on(g_in == NULL, "Cannot open file %s for reading", inname);
     error_on(g_out == NULL, "Cannot open file %s for writing", outname);
+    
+    g_line = 1;
+    g_col = 1;
 
     g_name = inname;
 
-    while ( (c = fgetc(g_in)) != EOF ) {
+    while ( (c = fget_char()) != EOF ) {
+        ++ g_col;
+        if ( c == '\n' ) {
+            ++ g_line;
+            g_col = 1;
+        }
         if ( c != g_escape ) {
             fputc(c, g_out);
-            if ( c == '\n' ) {
-                ++ g_line;
-                g_col = 1;
-            }
         } else {
-            c = fgetc(g_in);
+            c = fget_char();
             if ( c == g_escape ) {
                 /* A repeated escape character dumps itself on the output file. */
                 fputc(g_escape, g_out);
